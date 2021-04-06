@@ -2,13 +2,14 @@ import express from 'express'
 import products from "./data/products.js";
 import cors from "cors";
 import dotenv from 'dotenv';
+import morgan from 'morgan';
+import connectDB from './config/db.js';
 
 
 dotenv.config()
+connectDB()
 
 const app = express()
-
-// app.use(express)
 
 const corOptions = {
     origin: '*',
@@ -20,12 +21,17 @@ const corOptions = {
 // configure third party middleware
 app.use(cors(corOptions));
 
+// Log HTTP methods to console
+app.use(morgan('dev'));
+
+
 app.use(express.urlencoded({extended: true,}));
 app.use(express.json());
 
 
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
+    console.log("Running here")
     res.send("API is currently running");
 })
 
@@ -39,6 +45,6 @@ app.get("/api/products/:id", (req, res) => {
     res.json(product)
 })
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 6000
 
 app.listen(port, console.log(`The Server is running in ${process.env.NODE_ENV} mode on port ${port}`))
