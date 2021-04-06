@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
+import colors from 'colors';
 
 
 dotenv.config()
@@ -47,4 +48,4 @@ app.get("/api/products/:id", (req, res) => {
 
 const port = process.env.PORT || 6000
 
-app.listen(port, console.log(`The Server is running in ${process.env.NODE_ENV} mode on port ${port}`))
+app.listen(port, console.log(`The Server is running in ${process.env.NODE_ENV} mode on port ${port}`.cyan.underline))
