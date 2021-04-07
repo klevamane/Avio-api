@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import connectDB from './config/db.js';
 
 import productRoute from './routes/product.js';
+import { urlNotFound, errorHandler } from './middleware/error.js';
 
 dotenv.config();
 connectDB();
@@ -32,10 +33,23 @@ app.use(express.json());
 
 app.use('/api/products', productRoute);
 
-app.get('*', (req, res) => {
-  console.log('Running here');
-  res.send('API is currently running');
-});
+// app.use((err, req, res, next) => {
+//   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+//   res.status(statusCode);
+//   res.json({
+//     message: err.message,
+//     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+//   });
+//   next();
+// });
+app.use(errorHandler);
+
+app.use(urlNotFound);
+
+// app.use((req, res, next) => {
+//   const error = new Error(`Url - ${req.originalUrl} Not found`);
+//   next(error);
+// });
 
 const port = process.env.PORT || 6000;
 
