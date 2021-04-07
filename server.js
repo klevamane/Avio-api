@@ -1,9 +1,13 @@
 import express from 'express';
-import products from './data/products.js';
+// this is required, even though not used
+import colors from 'colors';
+
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
+
+import productRoute from './routes/product.js';
 
 dotenv.config();
 connectDB();
@@ -26,20 +30,11 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use('/api/products', productRoute);
+
 app.get('*', (req, res) => {
   console.log('Running here');
   res.send('API is currently running');
-});
-
-app.get('/api/products', (req, res) => {
-  res.json({ products });
-});
-
-app.get('/api/products/:id', (req, res) => {
-  // eslint-disable-next-line no-underscore-dangle
-  const product = products.find((prod) => prod._id == req.params.id);
-  console.log('product is: ', product);
-  res.json(product);
 });
 
 const port = process.env.PORT || 6000;
