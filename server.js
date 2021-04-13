@@ -1,14 +1,14 @@
-import express from 'express';
+import { errorHandler, urlNotFound } from './middleware/error.js';
+
+import authRoutes from './routes/auth.routes.js';
 // this is required, even though not used
 import colors from 'colors';
-
+import connectDB from './config/db.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import express from 'express';
 import morgan from 'morgan';
-import connectDB from './config/db.js';
-
-import productRoute from './routes/product.js';
-import { urlNotFound, errorHandler } from './middleware/error.js';
+import productRoutes from './routes/product.js';
 
 dotenv.config();
 connectDB();
@@ -31,7 +31,8 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api/products', productRoute);
+app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes);
 
 // app.use((err, req, res, next) => {
 //   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
