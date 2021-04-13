@@ -18,7 +18,7 @@ const login = asyncHandler(async (req, res) => {
     return res.json({ user: existinUser });
   }
   return res
-    .status(404)
+    .status(400)
     .json({ message: 'You have entered an invalid email or password' });
 });
 
