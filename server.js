@@ -1,5 +1,6 @@
 import { errorHandler, urlNotFound } from './middleware/error.js';
 
+import UserRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 // this is required, even though not used
 import colors from 'colors';
@@ -33,6 +34,7 @@ app.use(express.json());
 
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/user', UserRoutes);
 
 // app.use((err, req, res, next) => {
 //   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
