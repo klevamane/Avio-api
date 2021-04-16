@@ -28,7 +28,7 @@ app.use(cors(corOptions));
 
 // Log HTTP methods to console
 app.use(morgan('dev'));
-
+app.use(express.urlencoded());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
