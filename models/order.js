@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Review from './review.js';
 
 const orderSchema = mongoose.Schema(
   {
@@ -53,15 +52,8 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    isPaidAt: {
-      type: Date,
-      required: true,
-      default: false,
-    },
     isDeliveredAt: {
       type: Date,
-      required: true,
-      default: false,
     },
   },
   {
