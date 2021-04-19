@@ -43,4 +43,25 @@ const getOrderById = asyncHandler(async (req, res) => {
   res.json({ order });
 });
 
-export { addOrderItems, getOrderById };
+const updateOrderToPaid = asyncHandler(async (req, res) => {
+  const order = await Order.findById(id);
+  // update order details
+  if (order) {
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
+  } else {
+    res.status(400);
+    throw new Error('Order not found');
+  }
+
+  const updatedOrder = await order.save();
+  res.json(updatedOrder);
+});
+
+export { addOrderItems, getOrderById, updateOrderToPaid };
