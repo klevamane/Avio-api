@@ -1,6 +1,7 @@
 import {
   addOrderItems,
   getOrderById,
+  getUserOrders,
   updateOrderToPaid,
 } from '../controllers/order.controller.js';
 
@@ -12,5 +13,6 @@ const orderRouter = express.Router();
 orderRouter.route('/').post(protect, addOrderItems);
 orderRouter.route('/:id').get(protect, getOrderById);
 orderRouter.route('/:id/pay').put(protect, updateOrderToPaid);
+orderRouter.route('/user/all').get(protect, getUserOrders);
 
 export default orderRouter;

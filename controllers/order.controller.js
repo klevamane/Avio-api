@@ -32,14 +32,16 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id).populate(
-    'user',
-    'name email',
-  );
+  const order = await Order.findOne({
+    _id: req.params.id,
+    user: req.user._id,
+  }).populate('user', 'name email');
+  // Permission check that only the owner can view the order
   if (!order) {
     res.status(404);
     throw new Error('Order not found');
   }
+  console.log({ order });
   res.json({ order });
 });
 
@@ -64,4 +66,9 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   res.json(updatedOrder);
 });
 
-export { addOrderItems, getOrderById, updateOrderToPaid };
+const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.json({ orders });
+});
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getUserOrders };
