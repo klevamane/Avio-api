@@ -35,4 +35,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     },
   });
 });
-export { getUserProfile, updateUserProfile };
+
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json({ users });
+});
+export { getUserProfile, updateUserProfile, getUsers };

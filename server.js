@@ -35,7 +35,7 @@ app.use(express.json());
 
 app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/user', UserRoutes);
+app.use('/api/users', UserRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID),
