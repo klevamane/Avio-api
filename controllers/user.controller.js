@@ -36,8 +36,34 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
+/**
+ * @desc Get a list of all users
+ * @route GET /api/users
+ * @access Admin Only (Private)
+ * @param  {object} req  The request object.
+ * @param  {object} res  The response object
+ * @return {array}
+ */
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.json({ users });
 });
-export { getUserProfile, updateUserProfile, getUsers };
+
+/**
+ * @desc Deletes a user
+ * @route DELETE /api/users/<user._id>
+ * @access Admin Only (Private)
+ * @param  {object} req  The request object.
+ * @param  {object} res  The response object
+ * @return {object}
+ */
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findOneAndDelete({ _id: req.params.id });
+  if (user) {
+    return res.json({ message: 'User removed' });
+  }
+
+  res.status(404);
+  throw new Error('User not found');
+});
+export { getUserProfile, updateUserProfile, getUsers, deleteUser };
