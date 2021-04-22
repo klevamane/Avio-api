@@ -66,4 +66,52 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(404);
   throw new Error('User not found');
 });
-export { getUserProfile, updateUserProfile, getUsers, deleteUser };
+
+const getUserById = asyncHandler(async (req, res) => {
+  console.log('THE PARAMS OH ', req.params.id);
+  const user = await User.findById(req.params.id).select('-password');
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+  res.json({ user });
+});
+
+/**
+ * @desc Update the user's progile
+ * @route PUT /api/users/id
+ * @access Private (Admin)
+ * @param  {object} req  The request object.
+ * @param  {object} res  The response object
+ * @return {object}
+ */
+const updateAnyUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+  user.name = req.body.name || user.name;
+  user.email = req.body.email || user.email;
+  user.isAdmin = req.body.isAdmin || user.isAdmin;
+  const updatedUser = await user.save();
+
+  res.json({
+    profile: {
+      id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      createdAt: updatedUser.createdAt,
+      isAdmin: updatedUser.isAdmin,
+    },
+  });
+});
+
+export {
+  getUserProfile,
+  updateUserProfile,
+  getUsers,
+  deleteUser,
+  getUserById,
+  updateAnyUser,
+};
