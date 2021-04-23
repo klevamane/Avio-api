@@ -72,4 +72,23 @@ const createProduct = asyncHandler(async (req, res, next) => {
   res.status(201).json({ product: createdProduct });
 });
 
-export { getProducts, getProductById, deleteProductById, createProduct };
+const updateProduct = asyncHandler(async (req, res, next) => {
+  const { _id, ...data } = { ...req.body };
+  // return new(updated document) after the update
+  const product = await Product.findByIdAndUpdate(req.params.id, data, {
+    new: true,
+  });
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  res.json({ product });
+});
+
+export {
+  getProducts,
+  getProductById,
+  deleteProductById,
+  createProduct,
+  updateProduct,
+};
