@@ -31,4 +31,22 @@ const getProductById = asyncHandler(async (req, res, next) => {
   throw new Error('Product not found');
 });
 
-export { getProducts, getProductById };
+/**
+ * Deletes a single product by it's id (Admin Only)
+ * @function getProducts
+ * @param  {object} req  The request object.
+ * @param  {object} res  The response object
+ * @param  {String} next Moves the operation to the next handler or middleware
+ * @return {object}
+ */
+const deleteProductById = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    product.remove();
+    return res.json({ message: 'Operation successfull' });
+  }
+  res.status(404);
+  throw new Error('Product not found');
+});
+
+export { getProducts, getProductById, deleteProductById };
