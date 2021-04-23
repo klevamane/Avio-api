@@ -8,6 +8,7 @@ import {
   updateUserProfile,
 } from '../controllers/user.controller.js';
 
+import { createProduct } from '../controllers/product.controller.js';
 import express from 'express';
 
 const userRouter = express.Router();
@@ -18,5 +19,6 @@ userRouter.route('/').get(protect, admin, getUsers);
 userRouter.route('/:id').delete(protect, admin, deleteUser);
 userRouter.route('/admin/single/:id').get(protect, admin, getUserById);
 userRouter.route('/admin/update/:id').put(protect, admin, updateAnyUser);
+userRouter.route('/admin/create').post(protect, admin, createProduct);
 
 export default userRouter;
