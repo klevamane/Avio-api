@@ -1,4 +1,4 @@
-import { errorHandler, urlNotFound } from './middleware/error.js';
+import { errorHandler, urlNotFound } from './middleware/error.middleware.js';
 
 import UserRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
@@ -10,7 +10,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import orderRoutes from './routes/order.routes.js';
-import productRoutes from './routes/product.js';
+import path from 'path';
+import productRoutes from './routes/product.routes.js';
+import uploadRoutes from './routes/upload.routes.js';
 
 dotenv.config();
 connectDB();
@@ -37,10 +39,16 @@ app.use('/api/products', productRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', UserRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 app.use('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID),
 );
 
+// mimic __dirname from common js which
+// insint available in the type: module synthax
+const __dirname = path.resolve();
+// this is how we can make a folder static
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 // app.use((err, req, res, next) => {
 //   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
 //   res.status(statusCode);

@@ -10,7 +10,7 @@ import asyncHandler from 'express-async-handler';
  * @return {object}
  */
 const getProducts = asyncHandler(async (req, res, next) => {
-  const products = await Product.find({});
+  const products = await Product.find({}).sort({ createdAt: 1 });
   res.json({ products });
 });
 
@@ -60,10 +60,11 @@ const deleteProductById = asyncHandler(async (req, res, next) => {
 const createProduct = asyncHandler(async (req, res, next) => {
   const product = new Product({
     user: req.user._id,
-    name: 'sample name',
-    description: 'sample description',
+    name: 'Sample name',
+    description: 'Sample description',
     image: 'images/sample.jpg',
-    category: 'sample category',
+    category: 'Sample category',
+    brand: 'Sample brand',
     numReviews: 0,
     countInStock: 0,
     price: 0,
