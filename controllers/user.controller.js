@@ -68,8 +68,8 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const getUserById = asyncHandler(async (req, res) => {
-  console.log('THE PARAMS OH ', req.params.id);
   const user = await User.findById(req.params.id).select('-password');
+
   if (!user) {
     res.status(404);
     throw new Error('User not found');
