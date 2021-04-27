@@ -124,8 +124,13 @@ dist/
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+
 # Temporary folders
 tmp/
 temp/
+
+# vscode workspace setting
+.vscode
+.vscode/
 
 # End of https://www.toptal.com/developers/gitignore/api/node

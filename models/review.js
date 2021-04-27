@@ -6,7 +6,7 @@ const reviewSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    value: {
+    rating: {
       type: Number,
       required: true,
     },
@@ -19,11 +19,6 @@ const reviewSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'Product',
-    },
   },
   {
     timestamps: true,
@@ -32,4 +27,4 @@ const reviewSchema = mongoose.Schema(
 
 const Review = mongoose.model('Review', reviewSchema);
 
-export default Review;
+export { Review, reviewSchema };

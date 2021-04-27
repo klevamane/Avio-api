@@ -1,5 +1,5 @@
-import Product from '../models/product.js';
 import asyncHandler from 'express-async-handler';
+import Product from '../models/product.js';
 
 /**
  * Returns all products
@@ -10,8 +10,25 @@ import asyncHandler from 'express-async-handler';
  * @return {object}
  */
 const getProducts = asyncHandler(async (req, res, next) => {
-  const products = await Product.find({}).sort({ createdAt: 1 });
-  res.json({ products });
+  const { pageSize = 10 } = req.query;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i', // case insensitive
+        },
+      }
+    : {};
+  const totalCount = await Product.count({ ...keyword });
+
+  const products = await Product.find({ ...keyword })
+    .sort({ createdAt: 1 })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  // console.log('TOTAL COUNT2 ', products.length);
+  res.json({ products, page, pages: Math.ceil(totalCount / pageSize) });
 });
 
 /**
@@ -23,7 +40,10 @@ const getProducts = asyncHandler(async (req, res, next) => {
  * @return {object}
  */
 const getProductById = asyncHandler(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const product = await (await Product.findById(req.params.id)).populate(
+    'reviews',
+    'name user',
+  );
   if (product) {
     return res.json(product);
   }
