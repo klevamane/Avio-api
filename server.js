@@ -1,16 +1,15 @@
-import { errorHandler, urlNotFound } from './middleware/error.middleware.js';
-
-import UserRoutes from './routes/user.routes.js';
-import authRoutes from './routes/auth.routes.js';
 // this is required, even though not used
 import colors from 'colors';
-import connectDB from './config/db.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
-import orderRoutes from './routes/order.routes.js';
 import path from 'path';
+import orderRoutes from './routes/order.routes.js';
+import connectDB from './config/db.js';
+import authRoutes from './routes/auth.routes.js';
+import UserRoutes from './routes/user.routes.js';
+import { errorHandler, urlNotFound } from './middleware/error.middleware.js';
 import productRoutes from './routes/product.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import reviewRoutes from './routes/review.routes.js';
@@ -51,23 +50,9 @@ app.use('/api/config/paypal', (req, res) =>
 const __dirname = path.resolve();
 // this is how we can make a folder static
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-// app.use((err, req, res, next) => {
-//   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-//   res.status(statusCode);
-//   res.json({
-//     message: err.message,
-//     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
-//   });
-//   next();
-// });
-app.use(errorHandler);
-
+app.use('/', (req, res) => res.json({ message: 'Welcome to Avio api' }));
 app.use(urlNotFound);
-
-// app.use((req, res, next) => {
-//   const error = new Error(`Url - ${req.originalUrl} Not found`);
-//   next(error);
-// });
+app.use(errorHandler);
 
 const port = process.env.PORT || 6000;
 

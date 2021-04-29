@@ -9,7 +9,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 const urlNotFound = (req, res, next) => {
-  const error = new Error(`Url - ${req.originalUrl} Not found`);
+  const error = new Error(`Url - ${req.originalUrl} Not near found`);
   next(error);
 };
 
