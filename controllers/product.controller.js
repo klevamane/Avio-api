@@ -31,6 +31,11 @@ const getProducts = asyncHandler(async (req, res, next) => {
   res.json({ products, page, pages: Math.ceil(totalCount / pageSize) });
 });
 
+const getTopRatedProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(4);
+  return res.json({ topRated: products });
+});
+
 /**
  * Returns a single product by it's id
  * @function getProducts
@@ -112,4 +117,5 @@ export {
   deleteProductById,
   createProduct,
   updateProduct,
+  getTopRatedProducts,
 };
