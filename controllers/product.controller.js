@@ -98,6 +98,14 @@ const createProduct = asyncHandler(async (req, res, next) => {
   res.status(201).json({ product: createdProduct });
 });
 
+/**
+ * Updates a product (Admin Only)
+ * @function getProducts
+ * @param  {object} req  The request object.
+ * @param  {object} res  The response object
+ * @param  {String} next Moves the operation to the next handler or middleware
+ * @return {object}
+ */
 const updateProduct = asyncHandler(async (req, res, next) => {
   const { _id, ...data } = { ...req.body };
   // return new(updated document) after the update
