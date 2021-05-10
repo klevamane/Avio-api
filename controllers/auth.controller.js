@@ -28,7 +28,7 @@ const signup = asyncHandler(async (req, res) => {
     throw new Error('A user with the same email address already exists');
   }
 
-  let newUser = await User.create(req.body);
+  const newUser = await User.create(req.body);
   const token = generateToken(newUser._id);
   return res.status(200).json({ user: newUser, token });
 });

@@ -5,6 +5,7 @@ const reviewSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     rating: {
       type: Number,
@@ -13,6 +14,7 @@ const reviewSchema = mongoose.Schema(
     comment: {
       type: String,
       required: true,
+      trim: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

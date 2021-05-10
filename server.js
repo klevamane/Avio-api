@@ -1,18 +1,19 @@
+import { errorHandler, urlNotFound } from './middleware/error.middleware.js';
+
+import UserRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
 // this is required, even though not used
 import colors from 'colors';
+import { connectDB } from './config/db.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
-import path from 'path';
 import orderRoutes from './routes/order.routes.js';
-import connectDB from './config/db.js';
-import authRoutes from './routes/auth.routes.js';
-import UserRoutes from './routes/user.routes.js';
-import { errorHandler, urlNotFound } from './middleware/error.middleware.js';
+import path from 'path';
 import productRoutes from './routes/product.routes.js';
-import uploadRoutes from './routes/upload.routes.js';
 import reviewRoutes from './routes/review.routes.js';
+import uploadRoutes from './routes/upload.routes.js';
 
 dotenv.config();
 connectDB();
@@ -54,7 +55,12 @@ app.use('/', (req, res) => res.json({ message: 'Welcome to Avio api' }));
 app.use(urlNotFound);
 app.use(errorHandler);
 
-const port = process.env.PORT || 6000;
+let port;
+if (process.env.NODE_ENV === 'test') {
+  port = 7000;
+} else {
+  port = process.env.PORT || 6000;
+}
 
 app.listen(
   port,
@@ -63,3 +69,5 @@ app.listen(
       .underline,
   ),
 );
+
+export default app;
