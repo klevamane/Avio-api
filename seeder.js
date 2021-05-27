@@ -1,16 +1,19 @@
-import dotenv from 'dotenv';
-import users from './data/users.js';
-import products from './data/products.js';
+import Order from './models/order.js';
 import Product from './models/product.js';
 import User from './models/user.js';
-import Order from './models/order.js';
 import connectDB from './config/db.js';
+import dotenv from 'dotenv';
+import products from './data/products.js';
+import users from './data/users.js';
 
 dotenv.config();
 // We have to do this again because it is no way
 // connected to our server, as it's completely seperate
 connectDB();
 
+// It is important that the process is only run
+// The firstime the app is deployed
+// else ensure that the data in the staging/prod is not necessary
 const seedData = async () => {
   try {
     await Order.deleteMany();
