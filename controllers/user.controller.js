@@ -94,6 +94,10 @@ const updateAnyUser = asyncHandler(async (req, res) => {
   user.name = req.body.name || user.name;
   user.email = req.body.email || user.email;
   user.isAdmin = req.body.isAdmin || user.isAdmin;
+  // This is a required field during update
+  // so no need to check for or condition
+  // as its value must always be passed during
+  user.isAdmin = req.body.isAdmin;
   const updatedUser = await user.save();
 
   res.json({
